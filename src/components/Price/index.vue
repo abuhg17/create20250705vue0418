@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import MyPrice from "@/components/Myprice.vue";
+import MyPrice from "@/components/MyPrice.vue";
 const priceHistory1 = [
   {
     price: 610,
