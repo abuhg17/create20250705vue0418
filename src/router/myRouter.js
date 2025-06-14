@@ -16,7 +16,7 @@ const router = createRouter({
     { path: "/myFirebaseFood", component: MyFirebaseFood },
     { path: "/price", component: Price },
     { path: "/vue3", component: Vue3 },
-    { path: "/articles:", component: Articles },
+    { path: "/articles", component: Articles },
     { path: "/articles/:articleID", component: Article },
     { path: "/about", component: About },
     { path: "/:noFound(.*)", component: NotFound },
