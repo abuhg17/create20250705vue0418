@@ -25,6 +25,7 @@ const learnList = ref([
     title: "The complete VUE JS course",
     href: "https://www.udemy.com/course/the-complete-vue-js-course/",
     tech: [
+      "Firebase 10.7.1 - December 5, 2023",
       "Vue 3",
       "Animate.css , 第 3 節： Practice project One , 24. Adding names to the list",
       "Vee-Validate , 第 5 節： Forms",
@@ -32,6 +33,8 @@ const learnList = ref([
       "Vue Router , 第 8 節： Working with Routes",
       "Firebase , 第 9 節： Database and Authentication,",
       "Pinia , 第 10 節： State management with Pinia",
+      "vue-toastification",
+      "Vuetify",
     ],
     isShow: false,
   },
