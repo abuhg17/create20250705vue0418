@@ -36,6 +36,8 @@ const learnList = ref([
       "vue-toastification",
       "Vuetify",
       "2021-11-11",
+      "JSON server",
+      "placebeard.it",
     ],
     isShow: false,
   },
