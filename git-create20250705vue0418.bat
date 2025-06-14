@@ -2,7 +2,7 @@ git init
 
 git add .
 
-git commit -m "isLoading"
+git commit -m "cool"
 
 git remote add origin https://github.com/abuhg17/create20250705vue0418.git
 

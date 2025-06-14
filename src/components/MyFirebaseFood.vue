@@ -1,6 +1,9 @@
 <template>
   <h1>My Firebase Food Page</h1>
   <button @click="ClearForm()" class="outline">clear</button>
+  <button class="outline secondary">
+    <a :href="`#${formData.foodname}`"> Go to {{ formData.foodname }}</a>
+  </button>
   <form @submit.prevent="SubmitForm">
     foodname:<input
       type="text"
@@ -32,7 +35,7 @@
       placeholder="foodDate"
       v-model="formData.foodDate"
     />
-    <button type="submit" class="outline">submit</button>
+    <button type="submit" class="outline">new</button>
   </form>
   <div class="lds-ellipsis" v-if="isLoading">
     <div></div>
@@ -41,7 +44,10 @@
     <div></div>
   </div>
   <div v-for="item in myvue3food" :key="item.id">
-    <h2>{{ item.id }}</h2>
+    <div :id="item.foodname"></div>
+    <button class="outline contrast">
+      <a href="#" class="top">top</a>
+    </button>
     <button @click="SelectForUpadate(item)" class="outline secondary">
       select
     </button>
@@ -103,7 +109,7 @@ const formData = ref({
 });
 const SubmitForm = async () => {
   if (!formData.value.foodname) {
-    alert("foodname is null.");
+    Swal.fire("foodname is null.");
     return;
   }
   const q = query(
@@ -113,27 +119,70 @@ const SubmitForm = async () => {
   const querySnapshot = await getDocs(q);
 
   if (!querySnapshot.empty) {
-    alert("foodname is duplicate.");
+    Swal.fire(`${formData.value.foodname} is duplicate.`);
     return;
   }
+  const result = await Swal.fire({
+    title: "New foodname",
+    html: `foodname:${formData.value.foodname}\nfoodbrand:${formData.value.foodbrand}\nfoodstore:${formData.value.foodstore}\nfoodprice:${formData.value.foodprice}\nfoodamoun:${formData.value.foodamount}\nfoodDate:${formData.value.foodDate}\n`.replace(
+      /\n/g,
+      "<br>"
+    ),
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: `Yes, new ${formData.value.foodname}!`,
+  });
 
-  if (
-    !confirm(
-      `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.foodDate}\n`
-    )
-  ) {
-    return;
+  if (result.isConfirmed) {
+    const docRef = await addDoc(myvue3foodCollection, { ...formData.value });
+    const newItem = { ...formData.value, id: docRef.id };
+    myvue3food.value.push(newItem);
+    await Swal.fire({
+      title: "Newed!",
+      text: `${formData.value.foodname} has been newed.`,
+      icon: "success",
+    });
+    formData.value.foodname = "";
+    formData.value.foodbrand = "";
+    formData.value.foodstore = "";
+    formData.value.foodprice = "";
+    formData.value.foodamount = "";
+    formData.value.foodDate = "";
   }
+  // if (!formData.value.foodname) {
+  //   alert("foodname is null.");
+  //   return;
+  // }
+  // const q = query(
+  //   myvue3foodCollection,
+  //   where("foodname", "==", formData.value.foodname)
+  // );
+  // const querySnapshot = await getDocs(q);
 
-  const docRef = await addDoc(myvue3foodCollection, { ...formData.value });
-  const newItem = { ...formData.value, id: docRef.id };
-  myvue3food.value.push(newItem);
-  formData.value.foodname = "";
-  formData.value.foodbrand = "";
-  formData.value.foodstore = "";
-  formData.value.foodprice = "";
-  formData.value.foodamount = "";
-  formData.value.foodDate = "";
+  // if (!querySnapshot.empty) {
+  //   alert("foodname is duplicate.");
+  //   return;
+  // }
+
+  // if (
+  //   !confirm(
+  //     `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.foodDate}\n`
+  //   )
+  // ) {
+  //   return;
+  // }
+
+  // const docRef = await addDoc(myvue3foodCollection, { ...formData.value });
+  // const newItem = { ...formData.value, id: docRef.id };
+  // myvue3food.value.push(newItem);
+  // formData.value.foodname = "";
+  // formData.value.foodbrand = "";
+  // formData.value.foodstore = "";
+  // formData.value.foodprice = "";
+  // formData.value.foodamount = "";
+  // formData.value.foodDate = "";
 };
 function SelectForUpadate(item) {
   formData.value.foodname = item.foodname;
@@ -145,35 +194,94 @@ function SelectForUpadate(item) {
 }
 
 async function UpdateByForm(item) {
+  // if (!formData.value.foodname) {
+  //   alert("foodname is null.");
+  //   return;
+  // }
+  // if (
+  //   !confirm(
+  //     `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.foodDate}\n`
+  //   )
+  // ) {
+  //   return;
+  // }
+  // const docRef = doc(db, "myvue3food", item.id);
+  // await updateDoc(docRef, { ...formData.value });
+  // const index = myvue3food.value.findIndex((i) => i.id === item.id);
+  // if (index !== -1) {
+  //   myvue3food.value[index] = {
+  //     ...myvue3food.value[index],
+  //     ...formData.value,
+  //   };
+  // }
   if (!formData.value.foodname) {
-    alert("foodname is null.");
+    Swal.fire("foodname is null.");
     return;
   }
-  if (
-    !confirm(
-      `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.foodDate}\n`
-    )
-  ) {
-    return;
-  }
-  const docRef = doc(db, "myvue3food", item.id);
-  await updateDoc(docRef, { ...formData.value });
-  const index = myvue3food.value.findIndex((i) => i.id === item.id);
-  if (index !== -1) {
-    myvue3food.value[index] = {
-      ...myvue3food.value[index],
-      ...formData.value,
-    };
+  const result = await Swal.fire({
+    title: "Update foodname",
+    html: `foodname:${formData.value.foodname}\nfoodbrand:${formData.value.foodbrand}\nfoodstore:${formData.value.foodstore}\nfoodprice:${formData.value.foodprice}\nfoodamoun:${formData.value.foodamount}\nfoodDate:${formData.value.foodDate}\n`.replace(
+      /\n/g,
+      "<br>"
+    ),
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: `Yes, update ${item.foodname}!`,
+  });
+
+  if (result.isConfirmed) {
+    const docRef = doc(db, "myvue3food", item.id);
+    await updateDoc(docRef, { ...formData.value });
+    const index = myvue3food.value.findIndex((i) => i.id === item.id);
+    if (index !== -1) {
+      myvue3food.value[index] = {
+        ...myvue3food.value[index],
+        ...formData.value,
+      };
+    }
+    await Swal.fire({
+      title: "Updated!",
+      text: `${item.foodname} has been updated.`,
+      icon: "success",
+    });
+    formData.value.foodname = "";
+    formData.value.foodbrand = "";
+    formData.value.foodstore = "";
+    formData.value.foodprice = "";
+    formData.value.foodamount = "";
+    formData.value.foodDate = "";
   }
 }
 
 async function DeleteBySelect(item) {
-  if (!confirm("delete is not rollback.")) {
-    return;
+  // if (!confirm(`delete is not rollback.\n${item.foodname}`)) {
+  //   return;
+  // }
+  // const docRef = doc(db, "myvue3food", item.id);
+  // await deleteDoc(docRef);
+  // myvue3food.value = myvue3food.value.filter((food) => food.id !== item.id);
+  const result = await Swal.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: `Yes, delete ${item.foodname}!`,
+  });
+
+  if (result.isConfirmed) {
+    const docRef = doc(db, "myvue3food", item.id);
+    await deleteDoc(docRef);
+    myvue3food.value = myvue3food.value.filter((food) => food.id !== item.id);
+    await Swal.fire({
+      title: "Deleted!",
+      text: `${item.foodname} has been deleted.`,
+      icon: "success",
+    });
   }
-  const docRef = doc(db, "myvue3food", item.id);
-  await deleteDoc(docRef);
-  myvue3food.value = myvue3food.value.filter((food) => food.id !== item.id);
 }
 
 function ClearForm() {
