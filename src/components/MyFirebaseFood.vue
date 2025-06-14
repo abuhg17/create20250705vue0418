@@ -120,12 +120,16 @@
         </button>
       </Form>
     </div>
-    <div class="lds-ellipsis" v-if="isLoading">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+    <p>
+    <div class="myBorder">
+      <div class="lds-ellipsis" v-if="isLoading">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
     </div>
+    </p>
     <div v-for="item in myvue3food" :key="item.id">
       <div class="myBorder">
         <div :id="item.foodname"></div>
