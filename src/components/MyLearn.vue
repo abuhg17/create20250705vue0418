@@ -35,6 +35,7 @@ const learnList = ref([
       "Pinia , 第 10 節： State management with Pinia",
       "vue-toastification",
       "Vuetify",
+      "2021-11-11",
     ],
     isShow: false,
   },
