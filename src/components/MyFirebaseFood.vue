@@ -4,39 +4,63 @@
   <button class="outline secondary">
     <a :href="`#${formData.foodname}`"> Go to {{ formData.foodname }}</a>
   </button>
-  <form @submit.prevent="SubmitForm">
-    foodname:<input
-      type="text"
-      placeholder="foodname"
-      v-model="formData.foodname"
-    />
-    foodbrand:<input
-      type="text"
-      placeholder="foodbrand"
-      v-model="formData.foodbrand"
-    />
-    foodstore:<input
-      type="text"
-      placeholder="foodstore"
-      v-model="formData.foodstore"
-    />
-    foodprice:<input
-      type="text"
-      placeholder="foodprice"
-      v-model="formData.foodprice"
-    />
-    foodamount:<input
-      type="text"
-      placeholder="foodamount"
-      v-model="formData.foodamount"
-    />
-    foodDate<input
-      type="text"
-      placeholder="foodDate"
-      v-model="formData.foodDate"
-    />
+  <Form @submit="SubmitForm" :validation-schema="formSchema">
+    <p>
+      foodname:<Field
+        name="foodname"
+        type="text"
+        placeholder="foodname"
+        v-model="formData.foodname"
+      />
+      <ErrorMessage name="foodname" />
+    </p>
+    <p>
+      foodbrand:<Field
+        name="foodbrand"
+        type="text"
+        placeholder="foodbrand"
+        v-model="formData.foodbrand"
+      />
+      <ErrorMessage name="foodbrand" />
+    </p>
+    <p>
+      foodstore:<Field
+        name="foodstore"
+        type="text"
+        placeholder="foodstore"
+        v-model="formData.foodstore"
+      />
+    </p>
+    <ErrorMessage name="foodstore" />
+    <p>
+      foodprice:<Field
+        name="foodprice"
+        type="text"
+        placeholder="foodprice"
+        v-model="formData.foodprice"
+      />
+      <ErrorMessage name="foodprice" />
+    </p>
+    <p>
+      foodamount:<Field
+        name="foodamount"
+        type="text"
+        placeholder="foodamount"
+        v-model="formData.foodamount"
+      />
+      <ErrorMessage name="foodamount" />
+    </p>
+    <p>
+      fooddate<Field
+        name="fooddate"
+        type="text"
+        placeholder="fooddate"
+        v-model="formData.fooddate"
+      />
+      <ErrorMessage name="fooddate" />
+    </p>
     <button type="submit" class="outline">new</button>
-  </form>
+  </Form>
   <div class="lds-ellipsis" v-if="isLoading">
     <div></div>
     <div></div>
@@ -58,7 +82,7 @@
     <h3>foodstore:{{ item.foodstore }}</h3>
     <h5>foodprice:{{ item.foodprice }}</h5>
     <h5>foodamount:{{ item.foodamount }}</h5>
-    <h6>foodDate:{{ item.foodDate }}</h6>
+    <h6>fooddate:{{ item.fooddate }}</h6>
   </div>
 </template>
 <script setup>
@@ -105,7 +129,7 @@ const formData = ref({
   foodstore: "",
   foodprice: "",
   foodamount: "",
-  foodDate: "",
+  fooddate: "",
 });
 const SubmitForm = async () => {
   if (!formData.value.foodname) {
@@ -124,7 +148,7 @@ const SubmitForm = async () => {
   }
   const result = await Swal.fire({
     title: "New foodname",
-    html: `foodname:${formData.value.foodname}\nfoodbrand:${formData.value.foodbrand}\nfoodstore:${formData.value.foodstore}\nfoodprice:${formData.value.foodprice}\nfoodamoun:${formData.value.foodamount}\nfoodDate:${formData.value.foodDate}\n`.replace(
+    html: `foodname:${formData.value.foodname}\nfoodbrand:${formData.value.foodbrand}\nfoodstore:${formData.value.foodstore}\nfoodprice:${formData.value.foodprice}\nfoodamoun:${formData.value.foodamount}\nfooddate:${formData.value.fooddate}\n`.replace(
       /\n/g,
       "<br>"
     ),
@@ -149,7 +173,7 @@ const SubmitForm = async () => {
     formData.value.foodstore = "";
     formData.value.foodprice = "";
     formData.value.foodamount = "";
-    formData.value.foodDate = "";
+    formData.value.fooddate = "";
   }
   // if (!formData.value.foodname) {
   //   alert("foodname is null.");
@@ -168,7 +192,7 @@ const SubmitForm = async () => {
 
   // if (
   //   !confirm(
-  //     `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.foodDate}\n`
+  //     `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.fooddate}\n`
   //   )
   // ) {
   //   return;
@@ -182,7 +206,7 @@ const SubmitForm = async () => {
   // formData.value.foodstore = "";
   // formData.value.foodprice = "";
   // formData.value.foodamount = "";
-  // formData.value.foodDate = "";
+  // formData.value.fooddate = "";
 };
 function SelectForUpadate(item) {
   formData.value.foodname = item.foodname;
@@ -190,7 +214,7 @@ function SelectForUpadate(item) {
   formData.value.foodstore = item.foodstore;
   formData.value.foodprice = item.foodprice;
   formData.value.foodamount = item.foodamount;
-  formData.value.foodDate = item.foodDate;
+  formData.value.fooddate = item.fooddate;
 }
 
 async function UpdateByForm(item) {
@@ -200,7 +224,7 @@ async function UpdateByForm(item) {
   // }
   // if (
   //   !confirm(
-  //     `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.foodDate}\n`
+  //     `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.fooddate}\n`
   //   )
   // ) {
   //   return;
@@ -220,7 +244,7 @@ async function UpdateByForm(item) {
   }
   const result = await Swal.fire({
     title: "Update foodname",
-    html: `foodname:${formData.value.foodname}\nfoodbrand:${formData.value.foodbrand}\nfoodstore:${formData.value.foodstore}\nfoodprice:${formData.value.foodprice}\nfoodamoun:${formData.value.foodamount}\nfoodDate:${formData.value.foodDate}\n`.replace(
+    html: `foodname:${formData.value.foodname}\nfoodbrand:${formData.value.foodbrand}\nfoodstore:${formData.value.foodstore}\nfoodprice:${formData.value.foodprice}\nfoodamoun:${formData.value.foodamount}\nfooddate:${formData.value.fooddate}\n`.replace(
       /\n/g,
       "<br>"
     ),
@@ -251,7 +275,7 @@ async function UpdateByForm(item) {
     formData.value.foodstore = "";
     formData.value.foodprice = "";
     formData.value.foodamount = "";
-    formData.value.foodDate = "";
+    formData.value.fooddate = "";
   }
 }
 
@@ -290,8 +314,37 @@ function ClearForm() {
   formData.value.foodstore = "";
   formData.value.foodprice = "";
   formData.value.foodamount = "";
-  formData.value.foodDate = "";
+  formData.value.fooddate = "";
 }
+import { Field, Form, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+const formSchema = yup.object({
+  foodname: yup
+    .string()
+    .max(15, "Sorry, a max of 15.")
+    .required("foodstore  is required."),
+  foodbrand: yup
+    .string()
+    .max(15, "Sorry, a max of 15.")
+    .required("foodstore  is required."),
+  foodstore: yup
+    .string()
+    .max(15, "Sorry, a max of 15.")
+    .required("foodstore  is required."),
+  foodprice: yup
+    .number()
+    .max(999999, "Sorry, a max of 999999.")
+    .required("foodprice is required.")
+    .positive()
+    .integer(),
+  foodamount: yup
+    .number()
+    .max(99, "Sorry, a max of 99.")
+    .required("foodamount is required.")
+    .positive()
+    .integer(),
+  fooddate: yup.date().required("fooddate is required."),
+});
 </script>
 <style scoped>
 .lds-ellipsis,
