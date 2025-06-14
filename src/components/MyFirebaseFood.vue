@@ -34,6 +34,12 @@
     />
     <button type="submit" class="outline">submit</button>
   </form>
+  <div class="lds-ellipsis" v-if="isLoading">
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
   <div v-for="item in myvue3food" :key="item.id">
     <h2>{{ item.id }}</h2>
     <button @click="SelectForUpadate(item)" class="outline secondary">
@@ -75,6 +81,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import { ref } from "vue";
+const isLoading = ref(true);
 const myvue3food = ref([]);
 const myvue3foodCollection = collection(db, "myvue3food");
 getDocs(myvue3foodCollection).then((snapshot) => {
@@ -84,6 +91,7 @@ getDocs(myvue3foodCollection).then((snapshot) => {
   });
   myvue3food.value = documents;
   console.log(documents);
+  isLoading.value = false;
 });
 const formData = ref({
   foodname: "",
@@ -137,6 +145,10 @@ function SelectForUpadate(item) {
 }
 
 async function UpdateByForm(item) {
+  if (!formData.value.foodname) {
+    alert("foodname is null.");
+    return;
+  }
   if (
     !confirm(
       `${formData.value.foodname}\n${formData.value.foodbrand}\n${formData.value.foodstore}\n${formData.value.foodprice}\n${formData.value.foodamount}\n${formData.value.foodDate}\n`
@@ -173,4 +185,64 @@ function ClearForm() {
   formData.value.foodDate = "";
 }
 </script>
-<style scoped></style>
+<style scoped>
+.lds-ellipsis,
+.lds-ellipsis div {
+  box-sizing: border-box;
+}
+.lds-ellipsis {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ellipsis div {
+  position: absolute;
+  top: 33.33333px;
+  width: 13.33333px;
+  height: 13.33333px;
+  border-radius: 50%;
+  background: currentColor;
+  animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+.lds-ellipsis div:nth-child(1) {
+  left: 8px;
+  animation: lds-ellipsis1 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(2) {
+  left: 8px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(3) {
+  left: 32px;
+  animation: lds-ellipsis2 0.6s infinite;
+}
+.lds-ellipsis div:nth-child(4) {
+  left: 56px;
+  animation: lds-ellipsis3 0.6s infinite;
+}
+@keyframes lds-ellipsis1 {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes lds-ellipsis3 {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+@keyframes lds-ellipsis2 {
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+}
+</style>
