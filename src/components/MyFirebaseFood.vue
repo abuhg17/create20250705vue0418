@@ -1,65 +1,120 @@
 <template>
   <h1>My Firebase Food Page</h1>
-  <button @click="ClearForm()" class="outline">clear</button>
-  <button class="outline secondary">
+
+  <button @click="ClearForm()" class="button is-success">clear</button>
+  <button class="button is-info is-light">
     <a :href="`#${formData.foodname}`"> Go to {{ formData.foodname }}</a>
   </button>
   <Form @submit="SubmitForm" :validation-schema="formSchema">
-    <p>
-      foodname:<Field
-        name="foodname"
-        type="text"
-        placeholder="foodname"
-        v-model="formData.foodname"
-      />
-      <ErrorMessage name="foodname" />
-    </p>
-    <p>
-      foodbrand:<Field
-        name="foodbrand"
-        type="text"
-        placeholder="foodbrand"
-        v-model="formData.foodbrand"
-      />
-      <ErrorMessage name="foodbrand" />
-    </p>
-    <p>
-      foodstore:<Field
-        name="foodstore"
-        type="text"
-        placeholder="foodstore"
-        v-model="formData.foodstore"
-      />
-    </p>
-    <ErrorMessage name="foodstore" />
-    <p>
-      foodprice:<Field
-        name="foodprice"
-        type="text"
-        placeholder="foodprice"
-        v-model="formData.foodprice"
-      />
-      <ErrorMessage name="foodprice" />
-    </p>
-    <p>
-      foodamount:<Field
-        name="foodamount"
-        type="text"
-        placeholder="foodamount"
-        v-model="formData.foodamount"
-      />
-      <ErrorMessage name="foodamount" />
-    </p>
-    <p>
-      fooddate<Field
-        name="fooddate"
-        type="text"
-        placeholder="fooddate"
-        v-model="formData.fooddate"
-      />
-      <ErrorMessage name="fooddate" />
-    </p>
-    <button type="submit" class="outline">new</button>
+    <div class="field">
+      <p>
+        <label class="label">foodname:</label>
+      </p>
+      <div class="control">
+        <p>
+          <Field
+            name="foodname"
+            type="text"
+            placeholder="foodname"
+            v-model="formData.foodname"
+          />
+        </p>
+        <p>
+          <ErrorMessage name="foodname" />
+        </p>
+      </div>
+    </div>
+    <div class="field">
+      <p>
+        <label class="label">foodbrand:</label>
+      </p>
+      <div class="control">
+        <p>
+          <Field
+            name="foodbrand"
+            type="text"
+            placeholder="foodbrand"
+            v-model="formData.foodbrand"
+          />
+        </p>
+        <p>
+          <ErrorMessage name="foodbrand" />
+        </p>
+      </div>
+    </div>
+    <div class="field">
+      <p>
+        <label class="label">foodstore:</label>
+      </p>
+      <div class="control">
+        <p>
+          <Field
+            name="foodstore"
+            type="text"
+            placeholder="foodstore"
+            v-model="formData.foodstore"
+          />
+        </p>
+        <p>
+          <ErrorMessage name="foodstore" />
+        </p>
+      </div>
+    </div>
+    <div class="field">
+      <p>
+        <label class="label">foodprice:</label>
+      </p>
+      <div class="control">
+        <p>
+          <Field
+            name="foodprice"
+            type="number"
+            placeholder="foodprice"
+            v-model="formData.foodprice"
+          />
+        </p>
+        <p>
+          <ErrorMessage name="foodprice" />
+        </p>
+      </div>
+    </div>
+    <div class="field">
+      <p>
+        <label class="label">foodamount:</label>
+      </p>
+      <div class="control">
+        <p>
+          <Field
+            name="foodamount"
+            type="number"
+            placeholder="foodamount"
+            v-model="formData.foodamount"
+          />
+        </p>
+        <p>
+          <ErrorMessage name="foodamount" />
+        </p>
+      </div>
+    </div>
+    <div class="field">
+      <p>
+        <label class="label">fooddate:</label>
+      </p>
+      <div class="control">
+        <p>
+          <Field
+            name="fooddate"
+            type="date"
+            placeholder="fooddate"
+            v-model="formData.fooddate"
+          />
+        </p>
+        <p>
+          <ErrorMessage name="fooddate" />
+        </p>
+      </div>
+    </div>
+    <button type="submit" class="button is-primary button is-large">new</button>
   </Form>
   <div class="lds-ellipsis" v-if="isLoading">
     <div></div>
@@ -70,19 +125,36 @@
   <div v-for="item in myvue3food" :key="item.id">
     <div :id="item.foodname"></div>
     <button class="outline contrast">
-      <a href="#" class="top">top</a>
+      <a href="#" class="button is-link">top</a>
     </button>
-    <button @click="SelectForUpadate(item)" class="outline secondary">
+    <button @click="SelectForUpadate(item)" class="button is-info">
       select
     </button>
-    <button @click="UpdateByForm(item)" class="outline contrast">update</button>
-    <button @click="DeleteBySelect(item)">delete</button>
-    <h2>foodname:{{ item.foodname }}</h2>
-    <h3>foodbrand:{{ item.foodbrand }}</h3>
-    <h3>foodstore:{{ item.foodstore }}</h3>
-    <h5>foodprice:{{ item.foodprice }}</h5>
-    <h5>foodamount:{{ item.foodamount }}</h5>
-    <h6>fooddate:{{ item.fooddate }}</h6>
+    <button @click="UpdateByForm(item)" class="button is-warning">
+      update
+    </button>
+    <button @click="DeleteBySelect(item)" class="button is-danger">
+      delete
+    </button>
+    <div class="card">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left"></div>
+          <div class="media-content">
+            <p class="title is-4">{{ item.foodname }}</p>
+            <p class="subtitle is-6">{{ item.foodbrand }}</p>
+          </div>
+        </div>
+
+        <div class="content">
+          在{{ item.foodstore }}購買，一件{{ item.foodprice }}元，剩餘{{
+            item.foodamount
+          }}件
+          <br />
+          <time datetime="2025-07-05">有效期限至:{{ item.fooddate }}</time>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script setup>
@@ -322,15 +394,15 @@ const formSchema = yup.object({
   foodname: yup
     .string()
     .max(15, "Sorry, a max of 15.")
-    .required("foodstore  is required."),
+    .required("foodname is required."),
   foodbrand: yup
     .string()
     .max(15, "Sorry, a max of 15.")
-    .required("foodstore  is required."),
+    .required("foodbrand is required."),
   foodstore: yup
     .string()
     .max(15, "Sorry, a max of 15.")
-    .required("foodstore  is required."),
+    .required("foodstore is required."),
   foodprice: yup
     .number()
     .max(999999, "Sorry, a max of 999999.")
@@ -341,7 +413,6 @@ const formSchema = yup.object({
     .number()
     .max(99, "Sorry, a max of 99.")
     .required("foodamount is required.")
-    .positive()
     .integer(),
   fooddate: yup.date().required("fooddate is required."),
 });

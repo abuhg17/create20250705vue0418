@@ -7,10 +7,12 @@ import Articles from "@/components/Articles/index.vue";
 import Article from "@/components/Article/index.vue";
 import NotFound from "@/components/404.vue";
 import MyFirebaseFood from "@/components/MyFirebaseFood.vue";
+import MyLearn from "@/components/MyLearn.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: "/", component: Home },
+    { path: "/mylearn", component: MyLearn },
     { path: "/myFirebaseFood", component: MyFirebaseFood },
     { path: "/price", component: Price },
     { path: "/vue3", component: Vue3 },
