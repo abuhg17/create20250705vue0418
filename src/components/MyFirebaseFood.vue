@@ -129,6 +129,10 @@
         <div></div>
       </div>
     </div>
+    <br />
+    <div class="myBorder" v-if="!isLoading">
+      <div>總共有{{ myvue3food.length }}筆商品吃喝</div>
+    </div>
     <div v-for="item in myvue3food" :key="item.id">
       <div class="myBorder">
         <div :id="item.foodname"></div>
