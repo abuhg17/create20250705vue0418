@@ -1,7 +1,15 @@
 <template>
+  <h1>My Firebase Food Page</h1>
   <div class="myCenter">
+    <p>
     <div class="myBorder">
-      <h1>My Firebase Food Page</h1>
+      <button class="button is-success" @click="isshownew = !isshownew">
+        isshownew
+      </button>
+    </div>
+    </p>
+    <br/>
+    <div class="myBorder" v-if="isshownew">
       <button @click="ClearForm()" class="button is-success">clear</button>
       <button class="button is-info is-light">
         <a :href="`#${formData.foodname}`"> Go to {{ formData.foodname }}</a>
@@ -129,10 +137,18 @@
         <div></div>
       </div>
     </div>
-    <br />
+           <p>
     <div class="myBorder" v-if="!isLoading">
       <div>總共有{{ myvue3food.length }}筆商品吃喝</div>
     </div>
+    </p>
+     <br/>
+     <p>
+              <button class="outline contrast">
+          <a href="#bottom" class="button is-link">bottom</a>
+        </button>
+     </p>
+     <br/>
     <div v-for="item in myvue3food" :key="item.id">
       <div class="myBorder">
         <div :id="item.foodname"></div>
@@ -170,8 +186,11 @@
       </div>
     </div>
   </div>
+  <div id="bottom"></div>
 </template>
 <script setup>
+import { ref } from "vue";
+const isshownew = ref(true);
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
@@ -196,7 +215,6 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { ref } from "vue";
 const isLoading = ref(true);
 const myvue3food = ref([]);
 const myvue3foodCollection = collection(db, "myvue3food");
