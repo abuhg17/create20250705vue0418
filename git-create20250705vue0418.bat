@@ -2,7 +2,7 @@ git init
 
 git add .
 
-git commit -m "202507050418 isshownew"
+git commit -m "202507050418 MyCenter"
 
 git remote add origin https://github.com/abuhg17/create20250705vue0418.git
 

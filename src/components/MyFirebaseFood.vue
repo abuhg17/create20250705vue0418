@@ -1,6 +1,6 @@
 <template>
   <h1>My Firebase Food Page</h1>
-  <div class="myCenter">
+  <MyCenter>
     <p>
     <div class="myBorder">
       <button class="button is-success" @click="isshownew = !isshownew">
@@ -185,10 +185,11 @@
         </div>
       </div>
     </div>
-  </div>
   <div id="bottom"></div>
+     </MyCenter>
 </template>
 <script setup>
+import MyCenter from "@/components/MyCenter.vue";
 import { ref } from "vue";
 const isshownew = ref(true);
 import { initializeApp } from "firebase/app";
@@ -525,9 +526,6 @@ function AutoNew(
   100% {
     transform: translate(24px, 0);
   }
-}
-.myCenter {
-  text-align: center;
 }
 .myBorder {
   border: 1px solid;
