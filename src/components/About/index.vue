@@ -1,10 +1,15 @@
 <template>
   <h1>About Page</h1>
+  <dialog :open="isshowdialog">
+    {{ JSON.stringify(mytable, null, 2) }}
+    <button @click="isshowdialog = false">OK</button>
+  </dialog>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import MyComp2 from "@/components/MyComp2.vue";
+const isshowdialog = ref(true);
 const mytable = ref([
   {
     foodname: "百奇藍莓果粒優格棒",
